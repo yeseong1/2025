@@ -1,101 +1,98 @@
-# ⭐ 중요! Streamlit이 설치 안되어 있다면 터미널에 이걸 입력해줘!
+# ⭐️ 중요! Streamlit이 설치 안 되어 있다면 터미널에 이걸 입력해줘!
 # pip install streamlit
 # (이미 설치했다면 바로 다음 단계로 고고!)
 
-import streamlit as st # Streamlit 라이브러리 소환!
-import random # (나중에 운세 내용을 더 다양하게 만들 때 쓸 수도 있어!)
+import streamlit as st # Streamlit 라이브러리 불러오기
+import random # 궁합 점수랑 멘트 랜덤하게 뽑을 때 쓸 거야!
 
 def main():
     # 🌈 페이지 설정부터 심쿵하게! 🌈
     st.set_page_config(
-        page_title="🌟 반짝반짝! 내 별자리 운세 파티! 🚀", # 브라우저 탭에 뜨는 제목! 이모티콘은 국룰!
-        page_icon="🔮", # 브라우저 탭 아이콘!
-        layout="centered", # 웹 앱 화면 가운데로 정렬!
-        initial_sidebar_state="expanded" # 사이드바도 기본으로 펼쳐놓기! (옵션)
+        page_title="💖 두근두근! 이름 궁합 테스트! 💖", # 브라우저 탭 제목!
+        page_icon="💘", # 브라우저 탭 아이콘!
+        layout="centered", # 웹 앱 화면 가운데 정렬!
+        initial_sidebar_state="collapsed" # 사이드바는 기본으로 접어 놓기! (심플하게!)
     )
 
-    st.title('⭐ 반짝반짝! 오늘의 별자리 운세 ✨') # 메인 타이틀부터 블링블링!
-    st.markdown("### 🤩 내 별자리로 알아보는 핵인싸 운세, 궁금쓰? 🔮") # 부제목도 완전 힙하게!
+    st.title('💖 두근두근! 이름 궁합 테스트! 💘') # 메인 타이틀부터 러블리하게!
+    st.markdown("### 😊 당신과 상대방의 이름으로 알아보는 꿀케미 지수! 🥳") # 부제목도 완전 귀엽게!
     st.markdown("---") # 깔끔하게 구분선 하나 뿅!
 
-    # 🎀 별자리 선택 부분: 아이콘 + 이모티콘 대잔치! 🎀
-    # 사용자한테 보여줄 별자리 목록 (옵션에 이모티콘 추가)
-    star_sign_options_with_emoji = {
-        '🤷‍♀️ 별자리를 선택해줘! ➡️': '선택해주세요', # 기본값
-        '♈️ 양자리 (3/21 ~ 4/19)': '양자리',
-        '♉️ 황소자리 (4/20 ~ 5/20)': '황소자리',
-        '♊️ 쌍둥이자리 (5/21 ~ 6/20)': '쌍둥이자리',
-        '♋️ 게자리 (6/21 ~ 7/22)': '게자리',
-        '♌️ 사자자리 (7/23 ~ 8/22)': '사자자리',
-        '♍️ 처녀자리 (8/23 ~ 9/22)': '처녀자리',
-        '♎️ 천칭자리 (9/23 ~ 10/22)': '천칭자리',
-        '♏️ 전갈자리 (10/23 ~ 11/21)': '전갈자리',
-        '♐️ 사수자리 (11/22 ~ 12/21)': '사수자리',
-        '♑️ 염소자리 (12/22 ~ 1/19)': '염소자리',
-        '♒️ 물병자리 (1/20 ~ 2/18)': '물병자리',
-        '♓️ 물고기자리 (2/19 ~ 3/20)': '물고기자리'
-    }
+    # 📝 이름 입력 섹션 📝
+    st.subheader('📝 이름 입력하기')
+    st.write('👇 재미로 보는 궁합이니까, 가볍게 즐겨줘! 👇')
 
-    # Streamlit의 selectbox (드롭다운 메뉴)로 별자리 선택 받기
-    selected_option_key = st.selectbox(
-        '✨ 지금 바로 당신의 별자리를 골라봐! (두근두근) ✨',
-        options=list(star_sign_options_with_emoji.keys()), # 이모티콘이 들어간 텍스트로 보여주기
-        index=0 # 첫 번째 옵션('선택해주세요')이 기본으로 선택되게
+    # 내 이름 입력 필드
+    my_name = st.text_input(
+        '👤 내 이름 (예: 김아름)',
+        placeholder='여기에 당신의 이름을 입력해줘!' # 입력 전 힌트 메시지
     )
 
-    # 실제 운세 로직에서 사용할 별자리 이름 가져오기
-    current_star_sign_name = star_sign_options_with_emoji[selected_option_key]
+    # 상대방 이름 입력 필드
+    your_name = st.text_input(
+        '👩‍❤️‍👨 상대방 이름 (예: 박지훈)',
+        placeholder='여기에 상대방 이름을 입력해줘!' # 입력 전 힌트 메시지
+    )
 
-    st.markdown("---") # 또 구분선 뿅!
+    st.markdown("---") # 구분선 또 뿅!
 
-    # 🎈 결과 보기 버튼에도 이모티콘 잔뜩! 🎈
-    if st.button('🚀 내 오늘의 운세 GO! GO! 🚀'):
-        if current_star_sign_name == '선택해주세요':
-            st.error('앗! 😅 별자리를 먼저 골라줘야지! 위에 드롭다운에서 선택해줘! 👆')
+    # 🔮 궁합 결과 보기 버튼 🔮
+    if st.button('✨ 궁합 결과 보기! ✨'):
+        # 이름 입력 안 했을 때 경고 메시지!
+        if not my_name or not your_name: # 둘 중 하나라도 비어있으면!
+            st.error('😥 흑... 이름 두 개 다 입력해줘야 궁합을 봐줄 수 있어! 부탁해! 🙏')
         else:
-            st.success(f"두구두구... 당신의 {current_star_sign_name} 운세가 나타났다! 💫")
-            st.write("---") # 운세 내용 전에 구분선!
+            # 💖 궁합 점수 계산 (feat. 랜덤)! 💖
+            # 0에서 100 사이의 랜덤 점수 생성 (재미용!)
+            compatibility_score = random.randint(0, 100)
 
-            # 🎉 대망의 별자리별 운세 내용! 이모티콘 듬뿍! 🎉
-            st.subheader(f"✨ 오늘의 {current_star_sign_name} 운세는... ✨")
-
-            # 별자리별로 다른 운세 메시지 출력!
-            if current_star_sign_name == '양자리':
-                st.write('♈️ 오늘은 뭘 해도 잘 풀리는 날! 에너지 뿜뿜! 새로운 도전을 해봐! 겁먹지 마! 실패는 성공의 어머니랬잖아? 🔥 네가 가는 곳이 곧 힙플레이스! 💃')
-            elif current_star_sign_name == '황소자리':
-                st.write('♉️ 여유롭게 즐기는 하루가 딱! 맛있는 거 먹고 뒹굴뒹굴. 소확행 지대로 누려봐! 🍕 왠지 오늘은 횡재운이 있을지도...? ✨ (feat. 동그랗게 뜨고 다녀!)')
-            elif current_star_sign_name == '쌍둥이자리':
-                st.write('♊️ 폭풍 수다 예약! 새로운 사람 만나서 케미 터트려봐! 네 센스에 다들 깜놀할 걸? 🗣️ 정보의 바다에 풍덩! 서칭왕은 너야 너! 🕵️‍♀️')
-            elif current_star_sign_name == '게자리':
-                st.write('♋️ 따뜻한 품이 필요한 날! 소중한 친구나 가족이랑 힐링 타임 가져봐. 👩‍❤️‍👨 감동의 쓰나미가 몰려올지도? 🥺 집이 최고! 포근포근 하루 보내! 🏡')
-            elif current_star_sign_name == '사자자리':
-                st.write('♌️ 너 오늘 주인공 해라! 어딜 가든 시선 집중! ✨ 자신감 뿜뿜! 너의 매력에 모두가 반할 거야! 혹시 뭐 살 거 있으면 오늘이 바로 "그날"이야! 🛍️')
-            elif current_star_sign_name == '처녀자리':
-                st.write('♍️ 갓생 사는 처녀자리! 계획대로만 가면 만사 OK! 📝 꼼꼼함은 역시 너밖에 없어! 정리정돈은 마음의 평화! 깔끔하게 하루 마무리! 🧹')
-            elif current_star_sign_name == '천칭자리':
-                st.write('♎️ 밸런스 요정 강림! 인간관계가 술술 풀릴 거야. 친구들한테 칭찬받을 일 생길 듯? 💖 오늘 스타일링 대박! 미모 열일하는 날! 💄')
-            elif current_star_sign_name == '전갈자리':
-                st.write('♏️ 쉿, 비밀스러운 매력 발산! 🤫 깊이 있는 대화가 필요한 날이야. 직감 믿고 행동하면 행운이 따를 거야! 네가 생각하는 것보다 훨씬 멋진 사람이야! 😎')
-            elif current_star_sign_name == '사수자리':
-                st.write('♐️ 욜로족 소리질러! 새로운 경험에 도전해봐! ✈️ 멀리 떠나면 좋은 일 생길지도? 에너자이저! 🔋 긍정 파워로 세상을 밝혀줘! ☀️')
-            elif current_star_sign_name == '염소자리':
-                st.write('♑️ 꾸준함은 너의 무기! 포기하지 않고 노력하면 목표 달성각! 🏆 오늘 왠지 집중력 떡상! 공부나 업무 몰입도 최강! 🤓 화이팅! 🦾')
-            elif current_star_sign_name == '물병자리':
-                st.write('♒️ 엉뚱 발랄한 아이디어가 펑펑! 💡 창의력 대장 인정! 남들이 뭐라든 네 갈 길 가! 인싸는 원래 남다른 법! 🚀 오늘부터 너는 발명가! 🧑‍🔬')
-            elif current_star_sign_name == '물고기자리':
-                st.write('♓️ 감성 폭발! 오늘은 영화 한 편 때려야겠는 걸? 🎬 마음이 따뜻해지는 하루! 주변 사람들에게 사랑을 나눠줘. 💖 네 친절함에 감동받을 거야! 😇')
+            # 멘트 풀 (점수에 따라 다른 멘트 보여줄 거야!)
+            if compatibility_score >= 90:
+                ment_pool = [
+                    f"세상에... {my_name}님과 {your_name}님은 천생연분 짝꿍! 💖 심장이 쿵! 운명인가봐! 🤩",
+                    "이 궁합 실화냐? 💯 이 정도면 소울메이트 아니겠어? 찐친, 찐사랑 예약! 💫",
+                    "두 분의 궁합은 우주가 인정한 케미! 뭘 해도 척하면 척! 핵꿀조합! ✨"
+                ]
+            elif compatibility_score >= 70:
+                ment_pool = [
+                    f"{my_name}님과 {your_name}님은 환상의 짝꿍! 🥳 앞으로 더 좋은 일만 가득할 거야! 힘내! 💪",
+                    "오! 꽤 괜찮은 궁합인데? 노력하면 더 좋은 사이가 될 수 있을 거야! 응원할게! 🙌",
+                    "서로에게 좋은 영향을 주는 사이! 조금만 더 가까워지면 완전 베프각! 👯‍♀️"
+                ]
+            elif compatibility_score >= 40:
+                ment_pool = [
+                    f"{my_name}님과 {your_name}님은 알아가면 알아갈수록 매력 터지는 사이! 🍀 조금만 더 노력해볼까? 😊",
+                    "음... 😅 아직은 조금 서먹해도 괜찮아! 서로 다른 점이 매력 포인트가 될 수 있지! 개성을 존중해줘! 🤝",
+                    "이런 궁합도 저런 궁합도 다 있는 법! 너무 상심하지 마! 인연은 만들어가는 거야! 🌱"
+                ]
+            else:
+                ment_pool = [
+                    f"아... {my_name}님과 {your_name}님... 이것은 시련인가? 🤔 농담이야! 서로 이해하면 돼! 😜",
+                    "이번 생은... 쿨한 비즈니스 관계? 🤣 재미로 보는 거니까 진지 노노! 다음 기회에? 😅",
+                    "아직 서로를 덜 알아봐서 그래! 더 많은 이야기를 나누면 분명 좋아질 거야! 😊"
+                ]
             
-            st.markdown("---") # 운세 내용 끝!
-            st.info("🚨 꿀팁! 이 운세는 재미로 보는 거 알지? 너무 과몰입은 노노! 😉")
+            # 멘트 중에서 랜덤으로 하나 뽑기
+            chosen_ment = random.choice(ment_pool)
 
-            # 🥳 이벤트 시간! 풍선 팡팡 터트려! 🥳
-            st.balloons()
-            # 🌨️ 겨울 느낌 내고 싶으면 st.snow() 주석 풀어서 써봐! 🌨️
-            # st.snow()
+            # 🎉 결과 출력 섹션 🎉
+            st.success(f"💖 {my_name}님과 {your_name}님의 궁합 결과! 💖")
+            st.balloons() # 풍선 팡팡! 축하해주는 느낌! 🎈
+
+            st.write("---") # 또 구분선!
+            st.subheader(f"✨ 궁합 점수: {compatibility_score}점! ✨")
+            st.write(chosen_ment) # 위에서 뽑은 멘트 출력!
             
-            # 💡 사이드바에 추가 메시지! 💡
-            st.sidebar.markdown("### 😎 오늘의 운세, 어땠어? 🤔")
-            st.sidebar.markdown("더 궁금한 거 있으면 언제든지 말해줘! 난 항상 여기 있다구! 😜")
+            st.markdown("---") # 깔끔하게 마무리!
+            st.info("⚠️ 이 궁합 테스트는 '재미'로 보는 심심풀이입니다! 결과에 너무 일희일비하지 마세요! 🤣")
+            st.markdown("😉 인연은 만들고 가꿔가는 거지, 정해져 있는 게 아니잖아? 사랑해! 응원할게! 💖")
+
+    # 💡 사이드바에 추가 메시지! 💡
+    with st.sidebar:
+        st.header("✨ 개발자 노트 ✨")
+        st.write("이 앱은 Streamlit을 활용하여 파이썬으로 만들었어! 코딩은 생각보다 쉽고 재밌다구! 😉")
+        st.write("궁금한 점 있으면 언제든지 물어봐줘! 🧑‍💻")
+        st.image("https://raw.githubusercontent.com/streamlit/docs/main/docs/assets/streamlit-logo-light.svg", width=100) # Streamlit 로고 이미지 (선택사항)
 
 
 # 이 부분이 있어야 파이썬 파일 실행할 때 Streamlit 앱이 짠! 하고 실행됨!
